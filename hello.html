@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: centergirt;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .calculator {
+            width: 320px;
+            background-color: #333;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .display {
+            height: 80px;
+            background-color: #000;
+            color: white;
+            text-align: right;
+            font-size: 48px;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+        }
+
+        .button {
+            height: 60px;
+            background-color: #505050;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:active {
+            background-color: #a5a5a5;
+        }
+
+        .button.orange {
+            background-color: #ff9500;
+        }
+
+        .button.orange:active {
+            background-color: #e68a00;
+        }
+
+        .button.wide {
+            grid-column: span 2;
+            border-radius: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="button">AC</button>
+            <button class="button">+/-</button>
+            <button class="button">%</button>
+            <button class="button orange">÷</button>
+
+            <button class="button">7</button>
+            <button class="button">8</button>
+            <button class="button">9</button>
+            <button class="button orange">×</button>
+
+            <button class="button">4</button>
+            <button class="button">5</button>
+            <button class="button">6</button>
+            <button class="button orange">−</button>
+
+            <button class="button">1</button>
+            <button class="button">2</button>
+            <button class="button">3</button>
+            <button class="button orange">+</button>
+
+            <button class="button wide">0</button>
+            <button class="button">.</button>
+            <button class="button orange">=</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let buttons = Array.from(document.getElementsByClassName('button'));
+
+        buttons.map(button => {
+            button.addEventListener('click', (e) => {
+                switch (e.target.innerText) {
+                    case 'AC':
+                        display.innerText = '0';
+                        break;
+                    case '=':
+                        try {
+                            display.innerText = eval(display.innerText.replace('×', '*').replace('÷', '/'));
+                        } catch {
+                            display.innerText = 'Error';
+                        }
+                        break;
+                    case '÷':
+                    case '×':
+                    case '+':
+                    case '−':
+                    case '%':
+                        if (display.innerText !== '0') {
+                            display.innerText += e.target.innerText.replace('−', '-');
+                        }
+                        break;
+                    case '+/-':
+                        display.innerText = display.innerText * -1;
+                        break;
+                    default:
+                        if (display.innerText === '0') {
+                            display.innerText = e.target.innerText;
+                        } else {
+                            display.innerText += e.target.innerText;
+                        }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
